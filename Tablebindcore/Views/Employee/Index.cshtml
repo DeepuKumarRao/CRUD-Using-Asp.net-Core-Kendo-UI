@@ -1,0 +1,38 @@
+﻿@using Kendo.Mvc.UI  
+@using Kendo.Mvc.Extensions
+@model IEnumerable<Tablebindcore.Models.EmpClass>
+
+<div id=dvKenodGrid>
+    <h1> Kendo Grid Using Asp.net Core 6.0</h1>
+
+    @(
+        Html.Kendo().Grid(Model)
+                .Name("Grid")
+                .Columns(column =>
+            {
+                column.Bound(p => p.Id).Title("Employee ID").Hidden();
+                column.Bound(p => p.EmployeeName).Title("Employee Name");
+                column.Bound(p => p.Designation).Title("Designation");
+                column.Bound(p => p.Department).Title("Department");
+                column.Bound(p => p.Salary).Title("Salary");
+                column.Command(command => { command.Edit(); command.Destroy(); });
+            })
+      .ToolBar(t =>t.Create())    
+     .DataSource(dataSource => dataSource
+     .Ajax()
+
+     .PageSize(10)
+     .ServerOperation(false)
+      .Model(m =>m.Id(e =>e.Id))
+     .Create(create =>create.Action("Create","Employee"))
+     )
+
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .Groupable()
+    .Editable(e =>e.Mode(GridEditMode.InLine))
+    
+    )
+</div>
